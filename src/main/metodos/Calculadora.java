@@ -4,7 +4,8 @@ import java.util.Scanner;
 
 /**
  * Calculadora de operaciones básicas.
- * Permite realizar suma, resta, multiplicación, división y módulo entre dos números enteros.
+ * Permite realizar suma, resta, multiplicación, división y módulo entre dos
+ * números enteros.
  * Incluye menú interactivo para seleccionar la operación.
  *
  * @author rodrigocg123
@@ -12,7 +13,17 @@ import java.util.Scanner;
  */
 public class Calculadora {
     /**
-     * Método principal que ejecuta el menú de la calculadora y gestiona la entrada del usuario.
+     * Método principal que ejecuta el menú de la calculadora y gestiona la entrada
+     * del usuario. Presenta un menú interactivo con las siguientes opciones:
+     * <ul>
+     * <li>1. Sumar</li>
+     * <li>2. Restar</li>
+     * <li>3. Multiplicar</li>
+     * <li>4. Dividir</li>
+     * <li>5. Módulo</li>
+     * <li>6. Salir</li>
+     * </ul>
+     * El programa valida las entradas y maneja casos especiales como la división por cero.
      *
      * @param args Argumentos de la línea de comandos (no utilizados).
      */
@@ -23,7 +34,7 @@ public class Calculadora {
         System.out.println("Calculadora de operaciones básicas");
         System.out.println("-------------------------------------------");
         System.out.println(
-        "Menu de operaciones:\n 1. Sumar\n 2. Restar\n 3. Multiplicar\n 4. Dividir\n 5. Módulo\n 6. Salir");
+                "Menu de operaciones:\n 1. Sumar\n 2. Restar\n 3. Multiplicar\n 4. Dividir\n 5. Módulo\n 6. Salir");
         System.out.println("-------------------------------------------");
         System.out.println("-------------------------------------------");
         System.out.println("Seleccione una operación (1-5):");
@@ -35,46 +46,58 @@ public class Calculadora {
             System.out.println("Seleccione una operación (1-5):");
             opcion = entrada.nextInt();
         }
+        if (opcion == 6) {
+            System.out.println("Saliendo de la calculadora.");
+            entrada.close();
+            return;
+        }
 
         System.out.println("Ingrese el primer número:");
         int numero1 = entrada.nextInt();
         System.out.println("Ingrese el segundo número:");
         int numero2 = entrada.nextInt();
 
-        switch (opcion) {
-            case 1:
-                int resultadoSuma = sumar(numero1, numero2);
-                System.out.println("La suma de " + numero1 + " + " + numero2 + " es: " + resultadoSuma);
+        do {
+            switch (opcion) {
+                case 1:
+                    int resultadoSuma = sumar(numero1, numero2);
+                    System.out.println("La suma de " + numero1 + " + " + numero2 + " es: " + resultadoSuma);
 
-                break;
-            case 2:
-                int resultadoResta = restar(numero1, numero2);
-                System.out.println("La resta de " + numero1 + " - " + numero2 + " es: " + resultadoResta);
-                break;
+                    break;
+                case 2:
+                    int resultadoResta = restar(numero1, numero2);
+                    System.out.println("La resta de " + numero1 + " - " + numero2 + " es: " + resultadoResta);
+                    break;
 
-            case 3:
-                int resultadoMultiplicacion = multiplicar(numero1, numero2);
-                System.out.println(
-                        "La multiplicación de " + numero1 + " X " + numero2 + " es: " + resultadoMultiplicacion);
-                break;
+                case 3:
+                    int resultadoMultiplicacion = multiplicar(numero1, numero2);
+                    System.out.println(
+                            "La multiplicación de " + numero1 + " X " + numero2 + " es: " + resultadoMultiplicacion);
 
-            case 4:
-                int resultadoDividir = dividir(numero1, numero2);
-                System.out.println("La división entre " + numero1 + " / " + numero2 + " es: " + resultadoDividir);
-                break;
+                    break;
 
-            case 5:
-                int resultadoModulo = modulo(numero1, numero2);
-                System.out.println("El módulo de " + numero1 + " % " + numero2 + " es: " + resultadoModulo);
-                break;
-            case 6:
-                System.out.println("Saliendo de la calculadora.");
-                break;
+                case 4:
+                    if (opcion == 4 && numero2 == 0) {
+                        System.out
+                                .println(
+                                        "Error: División por cero no permitida. Por favor, ingrese un divisor distinto de cero.");
+                        System.out.println("Ingrese el segundo número:");
+                        numero2 = entrada.nextInt();
+                    }
+                    int resultadoDividir = dividir(numero1, numero2);
+                    System.out.println("La división entre " + numero1 + " / " + numero2 + " es: " + resultadoDividir);
+                    break;
 
-            default:
-                break;
+                case 5:
+                    int resultadoModulo = modulo(numero1, numero2);
+                    System.out.println("El módulo de " + numero1 + " % " + numero2 + " es: " + resultadoModulo);
+                    break;
 
-        }
+                default:
+                    break;
+
+            }
+        } while (opcion > 1 && opcion < 5);
 
         entrada.close();
     }
@@ -114,10 +137,13 @@ public class Calculadora {
 
     /**
      * Realiza la división de dos números enteros.
+     * Si el divisor es cero, muestra un mensaje de error y retorna 0.
+     * En una implementación más robusta, se debería lanzar una excepción.
      *
      * @param num1 Dividendo.
      * @param num2 Divisor.
      * @return El cociente de num1 entre num2, o 0 si el divisor es cero.
+     * @throws ArithmeticException (potencialmente en una implementación futura) si el divisor es cero
      */
     public static int dividir(int num1, int num2) {
         if (num2 != 0) {
@@ -130,10 +156,13 @@ public class Calculadora {
 
     /**
      * Calcula el módulo (resto) de la división entre dos números enteros.
+     * Utiliza el operador % para calcular el resto de la división.
+     * Nota: Si el divisor es cero, se producirá una ArithmeticException.
      *
      * @param num1 Dividendo.
      * @param num2 Divisor.
      * @return El resto de num1 dividido entre num2.
+     * @throws ArithmeticException si el divisor es cero
      */
     public static int modulo(int num1, int num2) {
         return num1 % num2;
