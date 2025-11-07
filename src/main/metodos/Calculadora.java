@@ -23,13 +23,15 @@ public class Calculadora {
      * <li>5. Módulo</li>
      * <li>6. Salir</li>
      * </ul>
-     * El programa valida las entradas y maneja casos especiales como la división por cero.
+     * El programa valida las entradas y maneja casos especiales como la división
+     * por cero.
      *
      * @param args Argumentos de la línea de comandos (no utilizados).
      */
     public static void main(String[] args) {
 
         Scanner entrada = new Scanner(System.in);
+
         System.out.println("-------------------------------------------");
         System.out.println("Calculadora de operaciones básicas");
         System.out.println("-------------------------------------------");
@@ -41,12 +43,12 @@ public class Calculadora {
         System.out.println("-------------------------------------------");
         int opcion = entrada.nextInt();
 
-        while (opcion < 1 || opcion > 6) {
+        while (opcion < 1 || opcion > 6) {// validar opción
             System.out.println("Opción no válida.");
             System.out.println("Seleccione una operación (1-5):");
             opcion = entrada.nextInt();
         }
-        if (opcion == 6) {
+        if (opcion == 6) {// salir de la calculadora
             System.out.println("Saliendo de la calculadora.");
             entrada.close();
             return;
@@ -62,36 +64,34 @@ public class Calculadora {
                 case 1:
                     int resultadoSuma = sumar(numero1, numero2);
                     System.out.println("La suma de " + numero1 + " + " + numero2 + " es: " + resultadoSuma);
-
-                    break;
+                    return;
                 case 2:
                     int resultadoResta = restar(numero1, numero2);
                     System.out.println("La resta de " + numero1 + " - " + numero2 + " es: " + resultadoResta);
-                    break;
+                    return;
 
                 case 3:
                     int resultadoMultiplicacion = multiplicar(numero1, numero2);
                     System.out.println(
                             "La multiplicación de " + numero1 + " X " + numero2 + " es: " + resultadoMultiplicacion);
 
-                    break;
+                    return;
 
                 case 4:
-                    if (opcion == 4 && numero2 == 0) {
+                    if (numero2 == 0) {
                         System.out
                                 .println(
                                         "Error: División por cero no permitida. Por favor, ingrese un divisor distinto de cero.");
                         System.out.println("Ingrese el segundo número:");
                         numero2 = entrada.nextInt();
                     }
-                    int resultadoDividir = dividir(numero1, numero2);
+                    float resultadoDividir = dividir(numero1, numero2);
                     System.out.println("La división entre " + numero1 + " / " + numero2 + " es: " + resultadoDividir);
-                    break;
-
+                    return;
                 case 5:
                     int resultadoModulo = modulo(numero1, numero2);
                     System.out.println("El módulo de " + numero1 + " % " + numero2 + " es: " + resultadoModulo);
-                    break;
+                    return;
 
                 default:
                     break;
@@ -143,9 +143,10 @@ public class Calculadora {
      * @param num1 Dividendo.
      * @param num2 Divisor.
      * @return El cociente de num1 entre num2, o 0 si el divisor es cero.
-     * @throws ArithmeticException (potencialmente en una implementación futura) si el divisor es cero
+     * @throws ArithmeticException (potencialmente en una implementación futura) si
+     *                             el divisor es cero
      */
-    public static int dividir(int num1, int num2) {
+    public static float dividir(float num1, float num2) {
         if (num2 != 0) {
             return num1 / num2;
         } else {
